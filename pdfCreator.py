@@ -1,5 +1,6 @@
 from fpdf import FPDF
 import datetime
+import locale
 import os
 
 pdf = FPDF('P', 'mm', 'A4') #Creates the PDF
@@ -19,18 +20,19 @@ title1 = "Informació infraestructura"
 title2 = "de Xarxa TecnoCampus"
 ex = "(" + name + ")"
 pdf.cell(w=0, h=0, txt=title1, border=0, ln=2, align='L') #Writes the 1st lane of the title
-pdf.ln(15)
+pdf.ln(12)
 pdf.set_x(40)
 pdf.cell(w=0, h=0, txt=title2, border=0, ln=2, align='L') #Writes the 2nd lane of the title
-pdf.ln(15)
+pdf.ln(12)
 pdf.set_x(40)
 pdf.cell(w=0, h=0, txt=ex, border=0, ln=2, align='L') #Writes the name of the Ex
 pdf.ln(30)
 pdf.set_x(40)
 
-dt = datetime.datetime.today()
+locale.setlocale(locale.LC_ALL, 'ca_ES.UTF-8') #Sets locale to ca_ES to have the date in catalan
+dt = datetime.date.today()
 date = dt.strftime("%B %Y")
-pdf.cell(w=0, h=0, txt=date, border=0, ln=2, align='L') #Writes the date
+pdf.cell(w=0, h=0, txt=date.replace("de ", "").capitalize(), border=0, ln=2, align='L') #Writes the date
 
 name = name + ".pdf"
 filename = "/home/devasc/labs/devnet-src/python/lab1-python-ac-ob/" + name
