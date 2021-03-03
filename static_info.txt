@@ -1,0 +1,26 @@
+1.- Introducció
+1.1.- Descripció
+El present document descriu la topologia realitzada amb la configuració /Ex1/ a la empresa TecnoCampus.
+1.2.- Objectius
+El objectiu d’aquest document és la de formalitzar el traspàs d’informació al equip tècnic responsable del manteniment de les infraestructures instal·lades. Aquesta informació fa referencia al disseny, instal·lació i configuració dels dispositius i sistemes afectats per la implementació.
+La present documentació inclou:
+- Descripció general de les infraestructures instal·lades.
+- Configuració de les interfícies de xarxa
+- Configuració de les polítiques per les connexions VPN
+- Configuració dels protocols d’enrutament
+- Configuració de les llistes de control d’accés
+- Configuració dels banners
+1.3.- Descripció General de les infraestructures
+Actualment la topologia té la següent distribució:
+En aquesta topologia tenim /9/ equips, connectats a través de /8/ links
+2.1.- unmanaged-switch-0
+2.1.1.- Interfícies
+Les interfícies i la seva configuració és:
+- Link /i0/: /port0/
+- Link /i1/: /port1/
+- Link /i2/: /port2/
+- Link /i3/: /port3/
+- Link /i4/: /port4/
+- Link /i5/: /port5/
+- Link /i6/: /port6/
+- Link /i7/: /port7/

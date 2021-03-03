@@ -1,11 +1,19 @@
 from fpdf import FPDF
 import datetime
 import locale
+import yaml
 import os
 
 pdf = FPDF('P', 'mm', 'A4') #Creates the PDF
 name = input("Enter the file name: ") #Asks the user to enter the name of the file
 title = "Informació infraestructura de Xarxa TecnoCampus "
+filename = '/home/devasc/labs/devnet-src/python/lab1-python-ac-ob/' + name
+
+with open(filename) as file:
+    ex = yaml.load(file, Loader=yaml.FullLoader)
+    node = ex["nodes"]
+    for x in node:
+        print(x["interfaces"])
 
 #First page (Title page)
 def title_page():
