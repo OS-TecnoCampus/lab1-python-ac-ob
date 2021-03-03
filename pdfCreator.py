@@ -4,9 +4,8 @@ import locale
 import os
 
 pdf = FPDF('P', 'mm', 'A4') #Creates the PDF
-name = "Ex1" #HA D'AGAFAR EL NOM DEL FITXER
+name = input("Enter the file name: ") #Asks the user to enter the name of the file
 title = "Informació infraestructura de Xarxa TecnoCampus "
-ex = "(" + name + ")"
 
 #First page (Title page)
 def title_page():
@@ -26,7 +25,7 @@ def title_page():
     pdf.cell(w=0, h=0, txt=titlept2, border=0, ln=2, align='L') #Writes the 2nd lane of the title
     pdf.ln(12)
     pdf.set_x(40)
-    pdf.cell(w=0, h=0, txt=ex, border=0, ln=2, align='L') #Writes the name of the Ex
+    pdf.cell(w=0, h=0, txt="(" + name + ")", border=0, ln=2, align='L') #Writes the name of the Ex
     pdf.ln(30)
     pdf.set_x(40)
 
@@ -41,7 +40,7 @@ def header():
     pdf.set_xy(26.1, 10)
     pdf.set_font('Arial', '', 11) #Sets the font and its style and size
     pdf.set_text_color(110, 110, 110) #Sets the color of the text (grey)
-    pdf.cell(w=0, h=0, txt=title + ex, border=0, ln=0, align='L') #Writes the title
+    pdf.cell(w=0, h=0, txt=title + "(" + name + ")", border=0, ln=0, align='L') #Writes the title
     
 #Footer
 def footer():
