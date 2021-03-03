@@ -9,6 +9,7 @@ name = input("Enter the file name: ") #Asks the user to enter the name of the fi
 title = "Informació infraestructura de Xarxa TecnoCampus "
 filename = '/home/devasc/labs/devnet-src/python/lab1-python-ac-ob/' + name
 
+#obrir yaml i llegir totes les interficies
 with open(filename) as file:
     ex = yaml.load(file, Loader=yaml.FullLoader)
     node = ex["nodes"]
