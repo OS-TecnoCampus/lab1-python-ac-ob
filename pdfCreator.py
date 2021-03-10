@@ -42,6 +42,7 @@ def header():
     pdf.set_font('Arial', '', 11) #Sets the font and its style and size
     pdf.set_text_color(110, 110, 110) #Sets the color of the text (grey)
     pdf.cell(w=0, h=0, txt=title + ex, border=0, ln=0, align='L') #Writes the title
+    
 #Footer
 def footer():
     pdf.set_xy(26.1, 276)
