@@ -8,13 +8,30 @@ pdf = FPDF('P', 'mm', 'A4') #Creates the PDF
 name = input("Enter the file name: ") #Asks the user to enter the name of the file
 title = "Informació infraestructura de Xarxa TecnoCampus "
 filename = '/home/devasc/labs/devnet-src/python/lab1-python-ac-ob/' + name
+label = [] #Array to save the names of the devices
 
-#obrir yaml i llegir totes les interficies
+#obrir yaml i llegir el que li dius a for x in node: print(x["id"])
 #with open(filename) as file:
-#    ex = yaml.load(file, Loader=yaml.FullLoader)
-#    node = ex["nodes"]
-#    for x in node:
-#        print(x["interfaces"])
+    #ex = yaml.load(file, Loader=yaml.FullLoader)
+    #node = ex["nodes"]
+    #for x in node:
+        #print(x["id"])
+
+#Count number of nodes and links
+with open(filename) as file:
+    f = yaml.load(file, Loader=yaml.FullLoader)
+    nodes = f["nodes"]
+    for x in nodes:
+        x["id"]
+        label.append(x["label"]) #Saves the names of the devices
+    links = f["links"]
+    for x in links:
+        x["id"]
+
+print(len(nodes))
+print(len(label))
+for x in label:
+    print(x)
 
 #First page (Title page)
 def title_page():
@@ -107,7 +124,34 @@ pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
 text = "Actualment la topologia té la següent distribució:"
 pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
 pdf.ln(5)
+text = "En aquesta topologia tenim " + str(len(nodes)) + " equips, connectats a través de " + str(len(links)) + " links."
+pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
+pdf.ln(7)
 #Devices Configuration
+pdf.set_font('Arial', '', 16) #Sets the font and its style and size
+pdf.set_text_color(46, 83, 149) #Sets the color of the text (dark blue)
+text = "2.- Configuració dels dispositius"
+pdf.cell(w=0, h=0, txt=text, border=0, ln=2, align='L')
+pdf.ln(5)
+pdf.set_font('Arial', '', 11) #Sets the font and its style and size
+pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
+text = "A continuació, es detalla la configuració dels diferents dispositius:"
+pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
+pdf.ln(5)
+pdf.set_font('Arial', '', 13) #Sets the font and its style and size
+pdf.set_text_color(46, 83, 149) #Sets the color of the text (dark blue)
+text = "2.1.- " + label[0]
+pdf.cell(w=0, h=0, txt=text, border=0, ln=2, align='L')
+pdf.ln(7)
+text = "2.1.1- Interfícies"
+pdf.cell(w=0, h=0, txt=text, border=0, ln=2, align='L')
+pdf.ln(5)
+pdf.set_font('Arial', '', 11) #Sets the font and its style and size
+pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
+text = "Les interfícies i la seva configuració és:"
+pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
+pdf.ln(5)
+
 pdf.add_page() #Adds a new page
 header()
 footer()
