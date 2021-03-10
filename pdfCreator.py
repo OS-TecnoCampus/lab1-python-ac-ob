@@ -10,28 +10,22 @@ title = "Informació infraestructura de Xarxa TecnoCampus "
 filename = '/home/devasc/labs/devnet-src/python/lab1-python-ac-ob/' + name
 label = [] #Array to save the names of the devices
 
-#obrir yaml i llegir el que li dius a for x in node: print(x["id"])
-#with open(filename) as file:
-    #ex = yaml.load(file, Loader=yaml.FullLoader)
-    #node = ex["nodes"]
-    #for x in node:
-        #print(x["id"])
-
-#Count number of nodes and links
+#To get the information inside yaml file
 with open(filename) as file:
     f = yaml.load(file, Loader=yaml.FullLoader)
     nodes = f["nodes"]
     for x in nodes:
-        x["id"]
+        x["id"] #Counts number of nodes
         label.append(x["label"]) #Saves the names of the devices
+    
     links = f["links"]
     for x in links:
-        x["id"]
-
+        x["id"] #Counts number of links
+           
 print(len(nodes))
 print(len(label))
-for x in label:
-    print(x)
+#for x in label:
+#    print(x)
 
 #First page (Title page)
 def title_page():
@@ -138,9 +132,10 @@ pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
 text = "A continuació, es detalla la configuració dels diferents dispositius:"
 pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
 pdf.ln(5)
+device = 0 #Device counter to get the correct configuration
 pdf.set_font('Arial', '', 13) #Sets the font and its style and size
 pdf.set_text_color(46, 83, 149) #Sets the color of the text (dark blue)
-text = "2.1.- " + label[0]
+text = "2.1.- " + label[device]
 pdf.cell(w=0, h=0, txt=text, border=0, ln=2, align='L')
 pdf.ln(7)
 text = "2.1.1- Interfícies"
@@ -148,7 +143,33 @@ pdf.cell(w=0, h=0, txt=text, border=0, ln=2, align='L')
 pdf.ln(5)
 pdf.set_font('Arial', '', 11) #Sets the font and its style and size
 pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
-text = "Les interfícies i la seva configuració és:"
+text = "Les interfícies i la seva configuració és:\n"
+pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
+interfaces = [] #Array to save the interfaces configuration
+id = [] #Array to save the links id from the interfaces
+lab = [] #Array to save the links label from the interfaces
+interfaces = (nodes[device]["interfaces"])
+for x in interfaces:
+    string = str(x)
+    posId = string.find("i") + 6
+    id.append(string[posId:posId+2])
+    posLabel = string.find("label") + 9
+    endLabel = string.find("', 'type'")
+    lab.append(string[posLabel:endLabel])
+for x in range(len(id)):
+    i = x
+    text = "   - Link " + id[i] + ": " + lab[i] + "\n"
+    pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
+device+=1
+pdf.ln(5)
+pdf.set_font('Arial', '', 13) #Sets the font and its style and size
+pdf.set_text_color(46, 83, 149) #Sets the color of the text (dark blue)
+text = "2.2.- " + label[device]
+pdf.cell(w=0, h=0, txt=text, border=0, ln=2, align='L')
+pdf.ln(5)
+pdf.set_font('Arial', '', 11) #Sets the font and its style and size
+pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
+text = "El darrer canvi de la configuració va ser el "
 pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
 pdf.ln(5)
 
