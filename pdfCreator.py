@@ -118,15 +118,10 @@ pdf.set_font('Arial', '', 11) #Sets the font and its style and size
 pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
 text = "Actualment la topologia té la següent distribució:"
 pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
-pdf.ln(5)
-text = "En aquesta topologia tenim " + str(len(nodes)) + " equips, connectats a través de " + str(len(links)) + " links."
-pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
-pdf.ln(7)
+pdf.ln(3)
 
 #Generate graph
-
 G = nx.DiGraph()
-
 for x in links:
     x["id"] #Counts number of links
     n1=x["n1"]
@@ -134,16 +129,19 @@ for x in links:
     n2=x["n2"]
     n2 = n2[1]
     G.add_edge(label[int(n1)-1],label[int(n2)-1])
-
 pos = nx.spring_layout(G)
 nx.draw_networkx_nodes(G, pos, node_size=800)
 nx.draw_networkx_edges(G, pos, edgelist = G.edges(),edge_color='black')
 nx.draw_networkx_labels(G, pos)
-
+plt.subplots_adjust(top=1, bottom=0.1)
 plt.savefig("graph.png")
-pdf.image('graph.png',50,100,100)
-#plt.show()
+pdf.image('graph.png', x=60, w=85)
 
+pdf.set_font('Arial', '', 11) #Sets the font and its style and size
+pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
+text = "En aquesta topologia tenim " + str(len(nodes)) + " equips, connectats a través de " + str(len(links)) + " links."
+pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
+pdf.ln(7)
 #Devices Configuration
 pdf.set_font('Arial', '', 16) #Sets the font and its style and size
 pdf.set_text_color(46, 83, 149) #Sets the color of the text (dark blue)
