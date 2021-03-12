@@ -49,6 +49,11 @@ def title_page():
     dt = datetime.date.today()
     date = dt.strftime("%B %Y")
     pdf.cell(w=0, h=0, txt=date.replace("de ", "").capitalize(), border=0, ln=2, align='L') #Writes the date
+    pdf.set_xy(26.1, 260)
+    pdf.set_font('Arial', '', 8) #Sets the font and its style and size
+    pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
+    text = "La informació continguda en aquest document pot ser de caràcter privilegiat i/o confidencial. Qualsevol disseminació, distribució o copia d’aquest document per qualsevol altre persona diferent als receptors originals queda estrictament prohibida. Si ha rebut aquest document per error, sis plau notifiquí immediatament al emissor i esborri qualsevol copia d’aquest document."
+    pdf.multi_cell(w=0, h=3, txt=text.replace(u"\u2019", "'"), border=0, align='J', fill=False) #Writes the bottom banner
 
 #Header
 def header():
@@ -483,7 +488,7 @@ for x in nodes:
     count2=1
     linkCount+=1
     txt = x["label"]
-    if txt[0]=='i':
+    if "configuration change" in x['configuration']:
         text = sep+sep+'2.'+str(count)+"."+str(count2)+".-Configuració criptogràfica del dispositiu.................................................................."
         pdf.cell(w=0, h=0, txt=text, border=0, ln=0, align='L', link = indexLinks[linkCount])
         text = str(indexPages[linkCount])
@@ -499,7 +504,7 @@ for x in nodes:
         pdf.ln(5)
         count2+=1
         linkCount+=1
-    if txt[0]=='i':
+    if "configuration change" in x['configuration']:
         text = sep+sep+'2.'+str(count)+"."+str(count2)+".-Configuració dels protocols d'enrutament..............................................................."
         pdf.cell(w=0, h=0, txt=text, border=0, ln=0, align='L', link = indexLinks[linkCount])
         text = str(indexPages[linkCount])
