@@ -20,15 +20,9 @@ with open(name) as file:
         x["id"] #Counts number of nodes
         label.append(x["label"]) #Saves the names of the devices
         conf.append(x["configuration"])
-    
     links = f["links"]
     for x in links:
         x["id"] #Counts number of links
-           
-print(len(nodes))
-print(len(label))
-string = conf[0]
-print(string)
 
 #First page (Title page)
 def title_page():
@@ -37,21 +31,18 @@ def title_page():
     pdf.set_line_width(5) #Sets the width of the line
     pdf.set_draw_color(248, 172, 4) #Sets the color of the line (light orange)
     pdf.line(26.1, 23.3, 26.1, 245) #Sets the position of the line
-
     pdf.image('tecnocampus-logo.jpg', x=130, y=23.3, w=70) #Adds an image (logo)
     pdf.set_xy(40, 70) #Sets in which x and y of the page starts writting
     titlept1 = "Informació infraestructura"
     titlept2 = "de Xarxa TecnoCampus"
-    pdf.cell(w=0, h=0, txt=titlept1, border=0, ln=2, align='L') #Writes the 1st lane of the title
-    pdf.ln(12)
+    pdf.cell(w=0, h=12, txt=titlept1, border=0, ln=2, align='L') #Writes the 1st lane of the title
     pdf.set_x(40)
-    pdf.cell(w=0, h=0, txt=titlept2, border=0, ln=2, align='L') #Writes the 2nd lane of the title
-    pdf.ln(12)
+    pdf.cell(w=0, h=12, txt=titlept2, border=0, ln=2, align='L') #Writes the 2nd lane of the title
+    pdf.ln(7)
     pdf.set_x(40)
     pdf.cell(w=0, h=0, txt="(" + name + ")", border=0, ln=2, align='L') #Writes the name of the Ex
     pdf.ln(30)
     pdf.set_x(40)
-
     locale.setlocale(locale.LC_ALL, 'ca_ES.UTF-8') #Sets locale to ca_ES to have the date in catalan
     dt = datetime.date.today()
     date = dt.strftime("%B %Y")
@@ -65,7 +56,6 @@ def header():
     pdf.set_text_color(110, 110, 110) #Sets the color of the text (grey)
     pdf.cell(w=0, h=0, txt=title + "(" + name + ")", border=0, ln=0, align='L') #Writes the title
 
-    
 #Footer
 def footer():
     pdf.set_xy(26.1, 276)
@@ -75,7 +65,7 @@ def footer():
     pdf.cell(w=0, h=0, txt=page, border=0, ln=0, align='L') #Adds a page number
 
 #Function to get the interfaces
-def getInterfaces(device):
+def getInterfaces(device, stringConf):
     interfaces = [] #Array to save the interfaces configuration
     id = [] #Array to save the links id from the interfaces
     lab = [] #Array to save the links label from the interfaces
@@ -138,32 +128,28 @@ pdf.set_xy(26.1, 23.3)
 pdf.set_font('Arial', '', 16) #Sets the font and its style and size
 pdf.set_text_color(46, 83, 149) #Sets the color of the text (dark blue)
 text = "1.- Introducció"
-pdf.cell(w=0, h=0, txt=text, border=0, ln=2, align='L')
-pdf.ln(10)
+pdf.cell(w=0, h=10, txt=text, border=0, ln=2, align='L')
 pdf.set_font('Arial', '', 13) #Sets the font and its style and size
 text = "1.1.- Descripció"
-pdf.cell(w=0, h=0, txt=text, border=0, ln=2, align='L')
-pdf.ln(5)
+pdf.cell(w=0, h=5, txt=text, border=0, ln=2, align='L')
 pdf.set_font('Arial', '', 11) #Sets the font and its style and size
 pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
 text = "El present document descriu la topologia realitzada amb la configuració " + name + " a la empresa TecnoCampus."
 pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
-pdf.ln(5)
+pdf.ln(3)
 pdf.set_font('Arial', '', 13) #Sets the font and its style and size
 pdf.set_text_color(46, 83, 149) #Sets the color of the text (dark blue)
 text = "1.2.- Objectius"
-pdf.cell(w=0, h=0, txt=text, border=0, ln=2, align='L')
-pdf.ln(5)
+pdf.cell(w=0, h=5, txt=text, border=0, ln=2, align='L')
 pdf.set_font('Arial', '', 11) #Sets the font and its style and size
 pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
-text = "El objectiu d’aquest document és la de formalitzar el traspàs d’informació al equip tècnic responsable del manteniment de les infraestructures instal·lades. Aquesta informació fa referencia al disseny, instal·lació i configuració dels dispositius i sistemes afectats per la implementació.\nLa present documentació inclou:\n   - Descripció general de les infraestructures instal·lades.\n   - Configuració de les interfícies de xarxa.\n   - Configuració de les polítiques per les connexions VPN.\n   - Configuració dels protocols d’enrutament.\n   - Configuració de les llistes de control d’accés.\n   - Configuració dels banners."
+text = "L’objectiu d’aquest document és la de formalitzar el traspàs d’informació al equip tècnic responsable del manteniment de les infraestructures instal·lades. Aquesta informació fa referencia al disseny, instal·lació i configuració dels dispositius i sistemes afectats per la implementació.\nLa present documentació inclou:\n   - Descripció general de les infraestructures instal·lades.\n   - Configuració de les interfícies de xarxa.\n   - Configuració de les polítiques per les connexions VPN.\n   - Configuració dels protocols d’enrutament.\n   - Configuració de les llistes de control d’accés.\n   - Configuració dels banners."
 pdf.multi_cell(w=0, h=5, txt=text.replace(u"\u2019", "'"), border=0, align='J', fill=False)
-pdf.ln(5)
+pdf.ln(3)
 pdf.set_font('Arial', '', 13) #Sets the font and its style and size
 pdf.set_text_color(46, 83, 149) #Sets the color of the text (dark blue)
 text = "1.3.- Descripció General de les infraestructures"
-pdf.cell(w=0, h=0, txt=text, border=0, ln=2, align='L')
-pdf.ln(5)
+pdf.cell(w=0, h=5, txt=text, border=0, ln=2, align='L')
 pdf.set_font('Arial', '', 11) #Sets the font and its style and size
 pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
 text = "Actualment la topologia té la següent distribució:"
@@ -189,26 +175,25 @@ pdf.set_font('Arial', '', 11) #Sets the font and its style and size
 pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
 text = "En aquesta topologia tenim " + str(len(nodes)) + " equips, connectats a través de " + str(len(links)) + " links."
 pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
-pdf.ln(7)
+pdf.ln(3)
 #DEVICES CONFIGURATION
 pdf.set_font('Arial', '', 16) #Sets the font and its style and size
 pdf.set_text_color(46, 83, 149) #Sets the color of the text (dark blue)
 text = "2.- Configuració dels dispositius"
-pdf.cell(w=0, h=0, txt=text, border=0, ln=2, align='L')
-pdf.ln(5)
+pdf.cell(w=0, h=7, txt=text, border=0, ln=2, align='L')
 pdf.set_font('Arial', '', 11) #Sets the font and its style and size
 pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
 text = "A continuació, es detalla la configuració dels diferents dispositius:"
 pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
-pdf.ln(5)
+pdf.ln(3)
 for device in range(len(nodes)):
     partCounter = 1
     string = conf[device]
     pdf.set_font('Arial', '', 13) #Sets the font and its style and size
     pdf.set_text_color(46, 83, 149) #Sets the color of the text (dark blue)
     text = "2." + str(device + 1) + ".- " + label[device]
-    pdf.cell(w=0, h=0, txt=text, border=0, ln=2, align='L')
-    pdf.ln(7)
+    pdf.cell(w=0, h=5, txt=text, border=0, ln=2, align='L')
+    pdf.ln(2)
     #Get configuration
     if "configuration change" in string: #If the device has configuration
         pdf.ln(-2)
@@ -217,16 +202,14 @@ for device in range(len(nodes)):
         changeDate = string[posChange:endChange]
         pdf.set_font('Arial', '', 11) #Sets the font and its style and size
         pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
-        print(changeDate)
         text = "El darrer canvi de la configuració va ser el " + changeDate[24:28] + " de " + getMonthNum(changeDate[17:20]) + " del " + changeDate[21:23] + " a les " + changeDate[0:12] + "."
         pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
-        pdf.ln(5)
+        pdf.ln(3)
         pdf.set_font('Arial', '', 13) #Sets the font and its style and size
         pdf.set_text_color(46, 83, 149) #Sets the color of the text (dark blue)
-        text = "2." + str(device + 1) + "." + str(partCounter) + "- Configuració criptogràfica del dispositiu"
+        text = "2." + str(device + 1) + "." + str(partCounter) + ".- Configuració criptogràfica del dispositiu"
         partCounter+=1
-        pdf.cell(w=0, h=0, txt=text, border=0, ln=2, align='L')
-        pdf.ln(5)
+        pdf.cell(w=0, h=5, txt=text, border=0, ln=2, align='L')
         pdf.set_font('Arial', '', 11) #Sets the font and its style and size
         pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
         if "crypto" in string: #If the device has crypto configuration
@@ -260,36 +243,125 @@ for device in range(len(nodes)):
         else: #If the device does not have crypto configuration
             text = "El dispositiu no té configuració crypto.\n"
             pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
-        pdf.ln(5)
+        pdf.ln(3)
         pdf.set_font('Arial', '', 13) #Sets the font and its style and size
         pdf.set_text_color(46, 83, 149) #Sets the color of the text (dark blue)
-        text = "2." + str(device + 1) + "." + str(partCounter) + "- Interfícies"
+        text = "2." + str(device + 1) + "." + str(partCounter) + ".- Interfícies"
         partCounter+=1
-        pdf.cell(w=0, h=0, txt=text, border=0, ln=2, align='L')
-        pdf.ln(5)
+        pdf.cell(w=0, h=5, txt=text, border=0, ln=2, align='L')
         pdf.set_font('Arial', '', 11) #Sets the font and its style and size
         pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
         text = "Les interfícies i la seva configuració és:\n"
         pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
-        getInterfaces(device)
-        pdf.ln(5)
-    else: #If the device does not have configuration
+        getInterfaces(device, string)
+        pdf.ln(3)
         pdf.set_font('Arial', '', 13) #Sets the font and its style and size
         pdf.set_text_color(46, 83, 149) #Sets the color of the text (dark blue)
-        text = "2." + str(device + 1) + "." + str(partCounter) + "- Interfícies"
+        text = "2." + str(device + 1) + "." + str(partCounter) + ".-  Configuració dels protocols d’enrutament"
         partCounter+=1
-        pdf.cell(w=0, h=0, txt=text, border=0, ln=2, align='L')
-        pdf.ln(5)
+        pdf.cell(w=0, h=5, txt=text.replace(u"\u2019", "'"), border=0, ln=2, align='L')
+        pdf.set_font('Arial', '', 11) #Sets the font and its style and size
+        pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
+        if "router" in string:
+            text = "El protocol d’enrutament utilitzat és " + string[string.find("router") + 7:string.find("\n network")].upper() + ", amb la següent configuració (xarxes publicades):\n"
+            pdf.multi_cell(w=0, h=5, txt=text.replace(u"\u2019", "'"), border=0, align='J', fill=False)
+            router = string[string.find(" network"):string.find("area 0\n!") + 6].split(" ")
+            networks = []
+            for x in router:
+                if x != "network" and x!= "area" and x != "0\n" and x!= "0" and x!= "":
+                    networks.append(x)
+            text = "   -  Àrea " + string[string.find("area") + 5:string.find("area") + 6] + ":"
+            pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
+            for x in range(len(networks)):
+                if x%2==0:
+                    text = "          o  Xarxa " + networks[x] + " màscara invertida " + networks[x + 1]
+                    pdf.cell(w=0, h=5, txt=text, border=0, ln=0, align='L', fill=False)
+                    pdf.ln(5)
+        else:
+            text = "No s’utilitza protocol d’enrutament."
+            pdf.multi_cell(w=0, h=5, txt=text.replace(u"\u2019", "'"), border=0, align='J', fill=False)
+            pdf.ln(3)
+        pdf.ln(3)
+        pdf.set_font('Arial', '', 13) #Sets the font and its style and size
+        pdf.set_text_color(46, 83, 149) #Sets the color of the text (dark blue)
+        text = "2." + str(device + 1) + "." + str(partCounter) + ".-  Configuració de Llistes de Control d’Accés"
+        partCounter+=1
+        pdf.cell(w=0, h=5, txt=text.replace(u"\u2019", "'"), border=0, ln=2, align='L')
+        pdf.set_font('Arial', '', 11) #Sets the font and its style and size
+        pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
+        acl = string[string.find("access-list"):string.find("!\ncontrol-plane") - 1].split(" ")
+        if acl[0] == '':
+            text = "El dispositiu no té configurada cap ACL."
+            pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
+        else:
+            text = "El dispositiu té configurada la següent ACL:\n"
+            pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
+            for x in acl:
+                if x != '' and '.' not in x:
+                    acl.remove(x)
+            text = "   -  Número " + acl[0] + ":\n"
+            pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
+            text = "          o  PERMIT (" + acl[1] + "):\n"
+            pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
+            text = "                    >  ORIGEN: " + acl[2] + " màscara invertida " + acl[3] + "\n"
+            pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
+            text = "                    >  DESTÍ: " + acl[4] + " màscara invertida " + acl[5] + "\n"
+            pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
+        pdf.ln(3)
+        pdf.set_font('Arial', '', 13) #Sets the font and its style and size
+        pdf.set_text_color(46, 83, 149) #Sets the color of the text (dark blue)
+        text = "2." + str(device + 1) + "." + str(partCounter) + ".-  Configuració de Banners"
+        partCounter+=1
+        pdf.cell(w=0, h=5, txt=text, border=0, ln=2, align='L')
+        pdf.set_font('Arial', '', 11) #Sets the font and its style and size
+        pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
+        text = "El dispositiu té configurats els següent Banners:\n"
+        pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
+        pdf.ln(3)
+        text = string[string.find("banner"):string.find("!\nline") - 1].replace("banner", "   -  ").replace("^CCC", "").replace("^C", "")
+        pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
+    elif string == '' or "# this is a shell script" in string: #If the device does not have configuration
+        pdf.set_font('Arial', '', 13) #Sets the font and its style and size
+        pdf.set_text_color(46, 83, 149) #Sets the color of the text (dark blue)
+        text = "2." + str(device + 1) + "." + str(partCounter) + ".- Interfícies"
+        partCounter+=1
+        pdf.cell(w=0, h=5, txt=text, border=0, ln=2, align='L')
         pdf.set_font('Arial', '', 11) #Sets the font and its style and size
         pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
         text = "Les interfícies i la seva configuració és:\n"
         pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
-        getInterfaces(device)
-        pdf.ln(5)
-
-pdf.add_page() #Adds a new page
-header()
-footer()
+        getInterfaces(device, string)
+        pdf.ln(3)
+    #Everytime there's a page break, adds a new page with it's header and footer
+    if pdf.get_y() > 260:
+        pdf.add_page() #Adds a new page
+        header()
+        footer()
+        pdf.set_margins(26.1, 23.3, 26.1) #Sets the margins
+        pdf.set_xy(26.1, 23.3)
+#INTERFACES
+pdf.set_font('Arial', '', 16) #Sets the font and its style and size
+pdf.set_text_color(46, 83, 149) #Sets the color of the text (dark blue)
+text = "3.- Interfícies"
+pdf.cell(w=0, h=5, txt=text, border=0, ln=2, align='L')
+pdf.set_font('Arial', '', 11) #Sets the font and its style and size
+pdf.set_text_color(0, 0, 0) #Sets the color of the text (black)
+text = "La configuració de les interfícies (links) d’interconnexió entre equips és:"
+pdf.cell(w=0, h=5, txt=text.replace(u"\u2019", "'"), ln=2, align='L')
+links = f["links"]
+for x in links:
+    pdf.ln(5)
+    pdf.set_font('Arial', 'B', 11) #Sets the font and its style and size
+    text = "   -  Link " + x["id"] + ":"
+    pdf.cell(w=0, h=0, txt=text.replace(u"\u2019", "'"), ln=2, align='L')
+    n1 = x["n1"]
+    n1 = n1[1]
+    n2 = x["n2"]
+    n2 = n2[1]
+    pdf.set_font('Arial', '', 11) #Sets the font and its style and size
+    text = "                    connecta " + x["i1"] + " (" + label[int(n1)-1] + ") amb " + x["i2"] + " (" + label[int(n2)-1] + ")"
+    pdf.cell(w=0, h=0, txt=text.replace(u"\u2019", "'"), ln=2, align='L')
 
 name = name + ".pdf"
 pdf.output(name, 'F') #Creates the pdf file
+print(name + " created")
