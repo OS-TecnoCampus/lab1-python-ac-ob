@@ -3,15 +3,16 @@ import datetime
 import locale
 import yaml
 import os
+import networkx as nx 
+import matplotlib.pyplot as plt
 
 pdf = FPDF('P', 'mm', 'A4') #Creates the PDF
 name = input("Enter the file name: ") #Asks the user to enter the name of the file
 title = "Informació infraestructura de Xarxa TecnoCampus "
-filename = '/home/devasc/labs/devnet-src/python/lab1-python-ac-ob/' + name
 label = [] #Array to save the names of the devices
 
 #To get the information inside yaml file
-with open(filename) as file:
+with open(name) as file:
     f = yaml.load(file, Loader=yaml.FullLoader)
     nodes = f["nodes"]
     for x in nodes:
@@ -35,7 +36,7 @@ def title_page():
     pdf.set_draw_color(248, 172, 4) #Sets the color of the line (light orange)
     pdf.line(26.1, 23.3, 26.1, 245) #Sets the position of the line
 
-    pdf.image('/home/devasc/labs/devnet-src/python/lab1-python-ac-ob/tecnocampus-logo.jpg', x=130, y=23.3, w=70) #Adds an image (logo)
+    pdf.image('tecnocampus-logo.jpg', x=130, y=23.3, w=70) #Adds an image (logo)
     pdf.set_xy(40, 70) #Sets in which x and y of the page starts writting
     titlept1 = "Informació infraestructura"
     titlept2 = "de Xarxa TecnoCampus"
@@ -56,7 +57,7 @@ def title_page():
 
 #Header
 def header():
-    pdf.image('/home/devasc/labs/devnet-src/python/lab1-python-ac-ob/tecnocampus-logo-light.jpg', x=140, y=5, w=40) #Adds an image (logo)
+    pdf.image('tecnocampus-logo-light.jpg', x=140, y=5, w=40) #Adds an image (logo)
     pdf.set_xy(26.1, 10)
     pdf.set_font('Arial', '', 11) #Sets the font and its style and size
     pdf.set_text_color(110, 110, 110) #Sets the color of the text (grey)
@@ -121,6 +122,28 @@ pdf.ln(5)
 text = "En aquesta topologia tenim " + str(len(nodes)) + " equips, connectats a través de " + str(len(links)) + " links."
 pdf.multi_cell(w=0, h=5, txt=text, border=0, align='J', fill=False)
 pdf.ln(7)
+
+#Generate graph
+
+G = nx.DiGraph()
+
+for x in links:
+    x["id"] #Counts number of links
+    n1=x["n1"]
+    n1 = n1[1]
+    n2=x["n2"]
+    n2 = n2[1]
+    G.add_edge(label[int(n1)-1],label[int(n2)-1])
+
+pos = nx.spring_layout(G)
+nx.draw_networkx_nodes(G, pos, node_size=800)
+nx.draw_networkx_edges(G, pos, edgelist = G.edges(),edge_color='black')
+nx.draw_networkx_labels(G, pos)
+
+plt.savefig("graph.png")
+pdf.image('graph.png',50,100,100)
+#plt.show()
+
 #Devices Configuration
 pdf.set_font('Arial', '', 16) #Sets the font and its style and size
 pdf.set_text_color(46, 83, 149) #Sets the color of the text (dark blue)
@@ -178,5 +201,4 @@ header()
 footer()
 
 name = name + ".pdf"
-filename = "/home/devasc/labs/devnet-src/python/lab1-python-ac-ob/" + name
-pdf.output(filename, 'F') #Creates the pdf file
+pdf.output(name, 'F') #Creates the pdf file
